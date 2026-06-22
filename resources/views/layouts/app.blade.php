@@ -16,27 +16,47 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    @auth
-                        @if(auth()->user()->role == 'admin')
-                            <li class="nav-item"><a class="nav-link" href="/admin/dashboard">Dashboard</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/admin/departments">Departments</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/admin/doctors">Doctors</a></li>
-                        @endif
-                        <li class="nav-item">
-                            <form action="/logout" method="POST" class="d-inline">
-                                @csrf
-                                <button type="submit" class="btn nav-link text-white">Logout</button>
-                            </form>
-                        </li>
-                    @else
-                        <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
-                    @endauth
-                    @auth
-    <li class="nav-item"><a class="nav-link" href="/doctors">Find Doctors</a></li>
-    <li class="nav-item"><a class="nav-link" href="/my-appointments">My Appointments</a></li>
+ @auth
+    {{-- Admin Links --}}
+    @if(auth()->user()->role == 'admin')
+        <li class="nav-item">
+            <a class="nav-link text-warning" href="/admin/dashboard">Admin Panel</a>
+        </li>
+
+    {{-- Doctor Links --}}
+    @elseif(auth()->user()->role == 'doctor')
+        <li class="nav-item">
+            <a class="nav-link" href="/doctor/dashboard">My Dashboard</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/doctor/appointments">My Appointments</a>
+        </li>
+
+    {{-- Patient Links --}}
+    @else
+        <li class="nav-item">
+            <a class="nav-link" href="/doctors">Find Doctors</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/my-appointments">My Appointments</a>
+        </li>
+    @endif
+
+    {{-- Logout (shows for everyone) --}}
+    <li class="nav-item">
+        <form action="/logout" method="POST" class="d-inline">
+            @csrf
+            <button type="submit" class="btn nav-link text-white">Logout</button>
+        </form>
+    </li>
+@else
+    <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+    <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
 @endauth
-                </ul>
+
+
+       
+         </ul>
             </div>
         </div>
     </nav>
