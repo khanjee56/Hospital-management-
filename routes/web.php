@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PrescriptionController;
+
 
 Auth::routes();
 
@@ -44,8 +46,17 @@ Route::middleware(['auth', 'doctor'])->prefix('doctor')->group(function() {
     Route::get('/appointments', [DoctorController::class, 'appointments']);
     Route::put('/appointments/{id}', [DoctorController::class, 'updateStatus']);
     Route::get('/appointments/{id}', [DoctorController::class, 'appointmentDetail']);
-});
+     Route::get('/appointments/{id}/prescription/create', [PrescriptionController::class, 'create']);
+    Route::post('/appointments/{id}/prescription', [PrescriptionController::class, 'store']);
 
+});
+// Patient prescription routes
+Route::middleware('auth')->group(function() {
+    // existing patient routes...
+    Route::get('/prescriptions/{id}', [PrescriptionController::class, 'show']);
+    Route::get('/prescriptions/{id}/download', [PrescriptionController::class, 'download']);
+    Route::get('/appointments/{id}/receipt', [PrescriptionController::class, 'downloadReceipt']);
+});
 
 Route::middleware('auth')->group(function() {
     // existing routes...

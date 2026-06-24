@@ -14,6 +14,7 @@
             <th>Notes</th>
             <th>Status</th>
             <th>Action</th>
+            
         </tr>
     </thead>
     <tbody>
@@ -47,6 +48,13 @@
                         </select>
                         <button type="submit" class="btn btn-sm btn-dark">Update</button>
                     </form>
+                      @if($appointment->status == 'completed')
+        <a href="/doctor/appointments/{{ $appointment->id }}/prescription/create"
+           class="btn btn-sm btn-success mt-1">
+            📝 Write Prescription
+        </a>
+       
+    @endif
                 </td>
             </tr>
         @empty

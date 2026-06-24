@@ -29,11 +29,24 @@
             <span class="badge bg-info d-block mb-2">Confirmed</span>
             <span class="badge bg-success">✅ Paid</span>
         @elseif($appointment->status == 'completed')
-            <span class="badge bg-success d-block mb-2">Completed</span>
+            <span class="badge bg-success d-block mb-3">Completed</span>
         @else
             <span class="badge bg-danger">Cancelled</span>
         @endif
+      @if($appointment->status == 'completed')
+    @if($appointment->prescription)
+        <a href="/prescriptions/{{ $appointment->prescription->id }}"
+           class="btn btn-sm btn-info mt-1">
+            📋 View Prescription
+        </a>
+        <a href="/appointments/{{ $appointment->id }}/receipt"
+           class="btn btn-sm btn-dark mt-1">
+            🧾 Download Receipt
+        </a>
+    @endif
+@endif
     </div>
+    
 </div>
         </div>
     </div>
@@ -43,5 +56,6 @@
         <a href="/doctors" class="btn btn-dark mt-3">Find a Doctor</a>
     </div>
 @endforelse
+
 
 @endsection
