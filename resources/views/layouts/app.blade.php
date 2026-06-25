@@ -18,29 +18,22 @@
                 <ul class="navbar-nav ms-auto">
  @auth
     {{-- Admin Links --}}
-    @if(auth()->user()->role == 'admin')
-        <li class="nav-item">
-            <a class="nav-link text-warning" href="/admin/dashboard">Admin Panel</a>
-        </li>
-
-    {{-- Doctor Links --}}
-    @elseif(auth()->user()->role == 'doctor')
-        <li class="nav-item">
-            <a class="nav-link" href="/doctor/dashboard">My Dashboard</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/doctor/appointments">My Appointments</a>
-        </li>
-
-    {{-- Patient Links --}}
-    @else
-        <li class="nav-item">
-            <a class="nav-link" href="/doctors">Find Doctors</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/my-appointments">My Appointments</a>
-        </li>
-    @endif
+  @if(auth()->user()->role == 'admin')
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-warning" href="#" 
+           data-bs-toggle="dropdown">
+            Admin Panel
+        </a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/admin/dashboard">Dashboard</a></li>
+            <li><a class="dropdown-item" href="/admin/departments">Departments</a></li>
+            <li><a class="dropdown-item" href="/admin/doctors">Doctors</a></li>
+            <li><a class="dropdown-item" href="/admin/appointments">Appointments</a></li>
+            <li><a class="dropdown-item" href="/admin/payments">Payments</a></li>
+            <li><a class="dropdown-item" href="/admin/users">Users</a></li>
+        </ul>
+    </li>
+@endif
 
     {{-- Logout (shows for everyone) --}}
     <li class="nav-item">

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Department;
 use App\Models\Doctor;
+use App\Models\Appointment;
+use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -11,13 +13,50 @@ use Illuminate\Support\Facades\Hash;
 class AdminController extends Controller
 {
     // Admin Dashboard
-    public function dashboard()
-    {
-        $totalDoctors = Doctor::count();
-        $totalDepartments = Department::count();
+  // Update Dashboard function
+public function dashboard()
+{
+    $totalDoctors       = Doctor::count();
+    $totalDepartments   = Department::count();
+    $totalAppointments  = Appointment::count();
+    $totalRevenue       = Payment::where('status', 'paid')->sum('amount');
+    $pendingAppointments = Appointment::where('status', 'pending')->count();
 
-        return view('admin.dashboard', compact('totalDoctors', 'totalDepartments'));
-    }
+    return view('admin.dashboard', compact(
+        'totalDoctors',
+        'totalDepartments',
+        'totalAppointments',
+        'totalRevenue',
+        'pendingAppointments'
+    ));
+}
+// View All Users
+public function users()
+{
+    $users = User::latest()->get();
+    return view('admin.users', compact('users'));
+}
+public function appointments()
+{
+    $appointments = Appointment::with('patient', 'doctor.user', 'doctor.department')
+                    ->latest()
+                    ->get();
+
+    return view('admin.appointments', compact('appointments'));
+}
+
+// View All Payments
+public function payments()
+{
+    $payments = Payment::with('patient', 'appointment.doctor.user')
+                ->latest()
+                ->get();
+
+    $totalRevenue = Payment::where('status', 'paid')->sum('amount');
+
+    return view('admin.payments', compact('payments', 'totalRevenue'));
+}
+
 
     // ===== DEPARTMENTS =====
 

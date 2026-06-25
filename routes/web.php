@@ -31,6 +31,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function() {
     Route::get('/doctors/{id}/edit', [AdminController::class, 'editDoctor']);
     Route::put('/doctors/{id}', [AdminController::class, 'updateDoctor']);
     Route::delete('/doctors/{id}', [AdminController::class, 'destroyDoctor']);
+
+    Route::get('/appointments', [AdminController::class, 'appointments']);
+Route::get('/payments', [AdminController::class, 'payments']);
+Route::get('/users', [AdminController::class, 'users']);
 });
 Route::get('/doctors', [AppointmentController::class, 'index']);
 Route::get('/doctors/{id}', [AppointmentController::class, 'show']);
