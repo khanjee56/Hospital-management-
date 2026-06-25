@@ -1,0 +1,283 @@
+# 🏥 MediCare — Hospital Management System
+
+A complete Hospital Management System built with **Laravel 12**, featuring patient appointment booking, doctor management, Stripe payment integration, PDF generation, and role-based access control.
+
+---
+
+## 📸 Project Overview
+
+MediCare is a full-featured hospital management system where patients can browse doctors, book appointments, and pay consultation fees online. Doctors can manage their appointments and write digital prescriptions. Admins have complete control over the system through a dedicated admin panel.
+
+---
+
+## ✨ Features
+
+### 👤 Patient Side
+- Register & Login
+- Browse Doctors by Department
+- Search Doctors by Name
+- Filter Doctors by Department
+- View Doctor Profile
+- Book Appointment (with double-booking prevention)
+- Pay Consultation Fee online (Stripe)
+- View My Appointments with Status
+- View & Download Prescription (PDF)
+- Download Payment Receipt (PDF)
+
+### 👨‍⚕️ Doctor Side
+- Doctor Dashboard (stats overview)
+- View All Appointments
+- Update Appointment Status (Pending/Confirmed/Completed/Cancelled)
+- Write Digital Prescriptions
+- Add Multiple Medicines per Prescription
+
+### 👨‍💼 Admin Panel
+- Admin Dashboard (doctors, departments, appointments, revenue stats)
+- Manage Departments (Add/Edit/Delete)
+- Manage Doctors (Add/Edit/Delete with photo upload)
+- View All Appointments
+- Payment Reports (total revenue)
+- View All Users
+
+### 💳 Payment
+- Stripe Payment Integration
+- Test & Live mode support
+- Payment receipt generation (PDF)
+- Payment status tracking
+
+### 📄 PDF Generation
+- Prescription PDF download
+- Payment Receipt PDF download
+
+---
+
+## 🛠️ Tech Stack
+
+| Technology | Usage |
+|---|---|
+| Laravel 12 | Backend Framework |
+| PHP 8.2 | Programming Language |
+| MySQL | Database |
+| Bootstrap 5 | Frontend Styling |
+| Stripe | Payment Gateway |
+| barryvdh/laravel-dompdf | PDF Generation |
+| XAMPP | Local Development Server |
+
+---
+
+## 👥 User Roles
+
+| Role | Access |
+|---|---|
+| **Patient** | Browse doctors, book appointments, pay, download prescriptions |
+| **Doctor** | Manage appointments, write prescriptions |
+| **Admin** | Full system control |
+
+---
+
+## 🗄️ Database Structure
+
+| Table | Description |
+|---|---|
+| `users` | All users (role: patient/doctor/admin) |
+| `departments` | Hospital departments (Cardiology, Dental, etc.) |
+| `doctors` | Doctor profiles linked to users |
+| `appointments` | Patient bookings with date/time/status |
+| `prescriptions` | Doctor prescriptions with medicines (JSON) |
+| `payments` | Payment records with Stripe transaction IDs |
+
+---
+
+## ⚙️ Installation & Setup
+
+### **Requirements**
+- PHP 8.2+
+- Composer
+- MySQL
+- Node.js & npm
+- XAMPP (or any local server)
+- Stripe Account (for payments)
+
+---
+
+### **Step 1: Clone the Repository**
+```bash
+git clone https://github.com/khanjee56/hospital-management.git
+cd hospital-management
+```
+
+### **Step 2: Install Dependencies**
+```bash
+composer install
+npm install
+npm run build
+```
+
+### **Step 3: Environment Setup**
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+### **Step 4: Configure Database**
+Open `.env` and update:
+```env
+DB_DATABASE=hospital_management
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+### **Step 5: Configure Stripe**
+```env
+STRIPE_KEY=pk_test_your_publishable_key
+STRIPE_SECRET=sk_test_your_secret_key
+```
+
+### **Step 6: Configure Gmail (For Email)**
+```env
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=youremail@gmail.com
+MAIL_PASSWORD=your_app_password
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=youremail@gmail.com
+MAIL_FROM_NAME="MediCare Hospital"
+```
+
+### **Step 7: Run Migrations & Seed Data**
+```bash
+php artisan migrate:fresh --seed
+```
+
+### **Step 8: Create Storage Link**
+```bash
+php artisan storage:link
+```
+
+### **Step 9: Run the Project**
+```bash
+php artisan serve
+```
+
+Open browser → `http://localhost:8000`
+
+---
+
+## 👤 Default Accounts (After Seeding)
+
+| Role | Email | Password |
+|---|---|---|
+| Admin | admin@medicare.com | 123456 |
+| Doctor 1 | ahmed@medicare.com | 123456 |
+| Doctor 2 | sara@medicare.com | 123456 |
+| Doctor 3 | bilal@medicare.com | 123456 |
+
+---
+
+## 💳 Stripe Test Card
+
+| Field | Value |
+|---|---|
+| Card Number | 4242 4242 4242 4242 |
+| Expiry | Any future date |
+| CVC | Any 3 digits |
+
+---
+
+## 📁 Project Structure
+
+```
+app/
+├── Http/
+│   ├── Controllers/
+│   │   ├── AdminController.php
+│   │   ├── AppointmentController.php
+│   │   ├── DoctorController.php
+│   │   ├── PaymentController.php
+│   │   └── PrescriptionController.php
+│   └── Middleware/
+│       ├── AdminMiddleware.php
+│       └── DoctorMiddleware.php
+├── Models/
+│   ├── User.php
+│   ├── Department.php
+│   ├── Doctor.php
+│   ├── Appointment.php
+│   ├── Prescription.php
+│   └── Payment.php
+database/
+├── migrations/
+└── seeders/
+    ├── DatabaseSeeder.php
+    └── HospitalSeeder.php
+routes/
+└── web.php
+resources/views/
+├── layouts/
+├── admin/
+│   ├── dashboard.blade.php
+│   ├── appointments.blade.php
+│   ├── payments.blade.php
+│   ├── users.blade.php
+│   ├── departments/
+│   └── doctors/
+├── doctor/
+│   ├── dashboard.blade.php
+│   └── appointments.blade.php
+├── doctors/
+│   ├── index.blade.php
+│   └── show.blade.php
+├── appointments/
+│   ├── book.blade.php
+│   └── my-appointments.blade.php
+├── prescriptions/
+│   ├── create.blade.php
+│   ├── show.blade.php
+│   ├── pdf.blade.php
+│   └── receipt.blade.php
+└── payments/
+    └── pay.blade.php
+```
+
+---
+
+## 🔄 Agile Development (Sprint Plan)
+
+| Sprint | Feature | Status |
+|---|---|---|
+| Sprint 1 | Project Setup + Auth | ✅ Done |
+| Sprint 2 | Admin - Departments + Doctors | ✅ Done |
+| Sprint 3 | Patient - Browse + Book Appointments | ✅ Done |
+| Sprint 4 | Doctor Dashboard + Appointments | ✅ Done |
+| Sprint 5 | Stripe Payment Integration | ✅ Done |
+| Sprint 6 | PDF Prescriptions + Receipts | ✅ Done |
+| Sprint 7 | Reports + Final Polish | ✅ Done |
+
+---
+
+## 🔄 Daily Git Workflow
+
+```bash
+# Before starting work
+git pull
+
+# After finishing work
+git add .
+git commit -m "describe what you did"
+git push
+```
+
+---
+
+## 👨‍💻 Developer
+
+**Haris Khan**
+- GitHub: [@khanjee56](https://github.com/khanjee56)
+- Project: BS Computer Science Student
+
+---
+
+## 📄 License
+
+This project is open source and available for learning purposes.
